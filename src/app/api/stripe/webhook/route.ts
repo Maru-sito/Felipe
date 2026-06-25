@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { headers } from 'next/headers'
-import { stripe } from '@/lib/stripe/server'
+import { getStripe } from '@/lib/stripe/server'
 import { createClient } from '@/lib/supabase/server'
 
 // Mock payment handler for development
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
 
   let event
   try {
-    event = stripe.webhooks.constructEvent(body, sig!, webhookSecret)
+    event = getStripe().webhooks.constructEvent(body, sig!, webhookSecret)
   } catch (err) {
     console.error('Stripe webhook signature error:', err)
     return NextResponse.json({ error: 'Invalid signature.' }, { status: 400 })
