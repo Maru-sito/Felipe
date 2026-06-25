@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import { resend } from '@/lib/resend/client'
+import { getResend } from '@/lib/resend/client'
 import { createClient } from '@/lib/supabase/server'
 
 export async function POST(request: Request) {
@@ -18,7 +18,7 @@ export async function POST(request: Request) {
       .single()
 
     if (type === 'booking_confirmed') {
-      await resend.emails.send({
+      await getResend().emails.send({
         from: process.env.RESEND_FROM_EMAIL!,
         to: email,
         subject: 'Tu sesión en BoRo Studio está confirmada',
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
               ACCEDER AL ÁREA VIP →
             </a>
             <p style="margin-top:40px;color:#444;font-size:12px;">
-              BoRo Studio · Buenos Aires
+              BoRo Studio · Santiago de Chile
             </p>
           </div>
         `,
